@@ -8,7 +8,7 @@ repo="NetFPGA-SUME-live"
 
 for pkgs in virtinst cloud-image-utils
 do
-if [ -z `apt -a list ${pkgs} | grep "installed"` ]; then
+if [ -n "`apt -a list ${pkgs} | grep "installed"`" ]; then
 	echo "now {pkgs}"
 	sudo apt install ${pkgs}
 fi
@@ -44,21 +44,11 @@ fi
 
 virt-install --name netfpga0 \
   --virt-type kvm --memory 2048 --vcpus 1 \
-  --boot hd,menu=on \
+  --boot hd,menu=off,useserial=off \
   --disk path=${vm_seed},device=cdrom \
   --disk path=${vm_image},device=disk \
-  --nographics \
   --os-type Linux --os-variant ubuntu18.04 \
-  --network network:default
-#  --console pty,target_type=serial
-
-
-if [ ! -d ${repo} ]; then
-	echo "Error: ${repo} not found "
-else
-	scp ${repo} --password netfpga netfpga@192.168.122.2:~/
-fi
-
-#echo "Starting verification script..."
-#ssh -n --password netfpga netfpga@192.168.122.2 'bash '
+  --network network:default \
+  --nographics \
+  --force
 
