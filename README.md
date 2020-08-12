@@ -3,12 +3,12 @@
 ### Required enviroment
 ```
  BIOS:
-   Vt-d enabled
+    Vt-d enabled
  Host OS:
     Ubuntu18.04
 ```
 
-##### make a 
+##### make a VM
 ```
 $ run.sh
 ```
